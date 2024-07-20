@@ -1,9 +1,6 @@
 package lucadipietro.ClimbHill_BackEnd.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +19,12 @@ public class Risultato {
     @Setter(AccessLevel.NONE)
     private UUID id;
     private int punteggio;
+
+    @ManyToOne
+    @JoinColumn(name = "partita_id")
+    private Partita partita;
+
+    @ManyToOne
+    @JoinColumn(name = "statistica_id")
+    private Statistica statistica;
 }

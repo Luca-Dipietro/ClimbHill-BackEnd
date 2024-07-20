@@ -1,14 +1,12 @@
 package lucadipietro.ClimbHill_BackEnd.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +21,7 @@ public class Gioco {
     private UUID id;
     private String nome;
     private String descrizione;
+
+    @OneToMany(mappedBy = "gioco")
+    private Set<Torneo> tornei;
 }

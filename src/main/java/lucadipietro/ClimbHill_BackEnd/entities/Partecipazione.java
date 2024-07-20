@@ -21,4 +21,20 @@ public class Partecipazione {
     private UUID id;
     @Column(name = "data_iscrizione")
     private LocalDate dataIscrizione;
+
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente utente;
+
+    @ManyToOne
+    @JoinColumn(name = "torneo_id")
+    private Torneo torneo;
+
+    @ManyToOne
+    @JoinColumn(name = "squadra_id")
+    private Squadra squadra;
+
+    @ManyToOne
+    @JoinColumn(name = "statistica_id")
+    private Statistica statistica;
 }

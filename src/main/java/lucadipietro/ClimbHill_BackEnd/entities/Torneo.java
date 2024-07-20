@@ -9,6 +9,7 @@ import lucadipietro.ClimbHill_BackEnd.enums.TipoTorneo;
 
 import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -29,4 +30,11 @@ public class Torneo {
     private LocalDate dataFineIscrizione;
     @Enumerated(EnumType.STRING)
     private TipoTorneo tipoTorneo;
+
+    @ManyToOne
+    @JoinColumn(name = "gioco_id")
+    private Gioco gioco;
+
+    @OneToMany(mappedBy = "torneo")
+    private Set<Partecipazione> partecipazioni;
 }

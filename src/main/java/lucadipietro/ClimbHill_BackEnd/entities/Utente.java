@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,6 +34,26 @@ public class Utente implements UserDetails {
     @Column(name = "data_di_nascita")
     private LocalDate dataDiNascita;
     private String avatar;
+
+    @ManyToMany(mappedBy = "membri")
+    private Set<Squadra> squadre;
+
+    @OneToMany(mappedBy = "utente")
+    private Set<Partecipazione> partecipazioni;
+
+    @ManyToMany(mappedBy = "utenti")
+    private Set<Partita> partite;
+
+    @OneToMany(mappedBy = "utente")
+    private Set<Statistica> statistiche;
+
+    @ManyToMany
+    @JoinTable(
+            name = "utente_ruoli",
+            joinColumns = @JoinColumn(name = "utente_id"),
+            inverseJoinColumns = @JoinColumn(name = "ruolo_id")
+    )
+    private Set<Ruolo> ruoli;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
