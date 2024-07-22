@@ -1,5 +1,7 @@
 package lucadipietro.ClimbHill_BackEnd.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lucadipietro.ClimbHill_BackEnd.entities.Ruolo;
 import lucadipietro.ClimbHill_BackEnd.entities.Utente;
 import lucadipietro.ClimbHill_BackEnd.enums.TipoRuolo;
@@ -8,10 +10,15 @@ import lucadipietro.ClimbHill_BackEnd.exceptions.NotFoundException;
 import lucadipietro.ClimbHill_BackEnd.payloads.UtenteDTO;
 import lucadipietro.ClimbHill_BackEnd.repositories.UtentiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,6 +32,9 @@ public class UtentiService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     public Utente save(UtenteDTO body) {
         utentiRepository.findByEmail(body.email()).ifPresent(
@@ -52,5 +62,34 @@ public class UtentiService {
 
     public Utente findByEmail(String email) {
         return this.utentiRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
+    }
+
+    public Page<Utente> getUtenti(int pageNumber, int pageSize, String sortBy) {
+        if (pageSize > 50) pageSize = 50;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return utentiRepository.findAll(pageable);
+    }
+
+    public Utente findByIdAndUpdate(UUID utenteId, UtenteDTO body) {
+        Utente found = this.findById(utenteId);
+        found.setUsername(body.username());
+        found.setEmail(body.email());
+        found.setPassword(passwordEncoder.encode(body.password()));
+        found.setNome(body.nome());
+        found.setCognome(body.cognome());
+        found.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+        return this.utentiRepository.save(found);
+    }
+
+    public void findByIdAndDelete(UUID utenteId) {
+        Utente found = this.findById(utenteId);
+        this.utentiRepository.delete(found);
+    }
+
+    public Utente uploadImage(UUID utenteId, MultipartFile file) throws IOException {
+        Utente found = this.findById(utenteId);
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        found.setAvatar(url);
+        return this.utentiRepository.save(found);
     }
 }

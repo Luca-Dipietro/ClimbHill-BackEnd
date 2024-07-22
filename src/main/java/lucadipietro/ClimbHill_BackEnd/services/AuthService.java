@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     @Autowired
     private UtentiService utentiService;
+
     @Autowired
     private JWTTokenConfiguration jwtTokenConfiguration;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String authenticateUserAndGenerateToken(UtenteLoginDTO body) {
+    public String authenticateUtenteAndGenerateToken(UtenteLoginDTO body) {
         Utente nuovoUtente = this.utentiService.findByEmail(body.email());
         if (passwordEncoder.matches(body.password(), nuovoUtente.getPassword())) {
             return jwtTokenConfiguration.createToken(nuovoUtente);
