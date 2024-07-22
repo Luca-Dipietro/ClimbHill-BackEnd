@@ -25,6 +25,22 @@ public class Risultato {
     private Partita partita;
 
     @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente utente;
+
+    @ManyToOne
+    @JoinColumn(name = "squadra_id")
+    private Squadra squadra;
+
+    @ManyToOne
     @JoinColumn(name = "statistica_id")
     private Statistica statistica;
+
+    public Risultato(int punteggio, Partita partita, Utente utente, Squadra squadra, Statistica statistica) {
+        this.punteggio = punteggio;
+        this.partita = partita;
+        this.utente = utente;
+        this.squadra = squadra;
+        this.statistica = statistica;
+    }
 }

@@ -7,13 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "utenti")
@@ -31,8 +30,6 @@ public class Utente implements UserDetails {
     private String password;
     private String nome;
     private String cognome;
-    @Column(name = "data_di_nascita")
-    private LocalDate dataDiNascita;
     private String avatar;
 
     @ManyToMany(mappedBy = "membri")
@@ -55,9 +52,21 @@ public class Utente implements UserDetails {
     )
     private Set<Ruolo> ruoli;
 
+    @OneToMany(mappedBy = "utente")
+    private Set<Risultato> risultati;
+
+    public Utente(String username, String email, String password, String nome, String cognome) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.ruoli = new HashSet<>();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return ruoli.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getRuolo().name())).collect(Collectors.toSet());
     }
 
     @Override

@@ -37,4 +37,12 @@ public class Partecipazione {
     @ManyToOne
     @JoinColumn(name = "statistica_id")
     private Statistica statistica;
+
+    public Partecipazione(Utente utente, Squadra squadra,Torneo torneo, Statistica statistica) {
+        this.dataIscrizione = LocalDate.now();
+        this.utente = utente;
+        this.squadra = squadra;
+        this.torneo = torneo;
+        this.statistica = statistica;
+    }
 }

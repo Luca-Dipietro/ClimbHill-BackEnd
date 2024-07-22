@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,4 +25,10 @@ public class Gioco {
 
     @OneToMany(mappedBy = "gioco")
     private Set<Torneo> tornei;
+
+    public Gioco(String nome, String descrizione) {
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.tornei = new HashSet<>();
+    }
 }

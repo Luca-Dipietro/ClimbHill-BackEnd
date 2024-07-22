@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,6 +26,11 @@ public class Partita {
     private LocalDate dataInizio;
     @Column(name = "ora_inizio")
     private LocalTime oraInizio;
+    private int round;
+
+    @ManyToOne
+    @JoinColumn(name = "torneo_id")
+    private Torneo torneo;
 
     @ManyToMany
     @JoinTable(
@@ -44,4 +50,14 @@ public class Partita {
 
     @OneToMany(mappedBy = "partita")
     private Set<Risultato> risultati;
+
+    public Partita(LocalDate dataInizio, LocalTime oraInizio, int round, Torneo torneo) {
+        this.dataInizio = dataInizio;
+        this.oraInizio = oraInizio;
+        this.round = round;
+        this.torneo = torneo;
+        this.utenti = new HashSet<>();
+        this.squadre = new HashSet<>();
+        this.risultati = new HashSet<>();
+    }
 }

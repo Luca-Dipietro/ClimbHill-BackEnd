@@ -24,4 +24,8 @@ public class Ruolo {
 
     @ManyToMany(mappedBy = "ruoli")
     private Set<Utente> utenti;
+
+    public Ruolo(TipoRuolo ruolo) {
+        this.ruolo = ruolo;
+    }
 }

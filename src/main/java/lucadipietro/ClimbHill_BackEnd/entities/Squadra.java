@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,4 +37,12 @@ public class Squadra {
 
     @OneToMany(mappedBy = "squadra")
     private Set<Statistica> statistiche;
+
+    @OneToMany(mappedBy = "squadra")
+    private Set<Risultato> risultati;
+
+    public Squadra(String nome) {
+        this.nome = nome;
+        this.membri = new HashSet<>();
+    }
 }

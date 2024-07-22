@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,10 +25,6 @@ public class Statistica {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @ManyToOne
-    @JoinColumn(name = "gioco_id")
-    private Gioco gioco;
-
     @OneToMany(mappedBy = "statistica")
     private Set<Risultato> risultati;
 
@@ -37,4 +34,11 @@ public class Statistica {
     @ManyToOne
     @JoinColumn(name = "squadra_id")
     private Squadra squadra;
+
+    public Statistica(Utente utente, Squadra squadra) {
+        this.risultati = new HashSet<>();
+        this.partecipazioni = new HashSet<>();
+        this.utente = utente;
+        this.squadra = squadra;
+    }
 }
