@@ -45,7 +45,7 @@ public class UtentiService {
                 utente -> {
                     throw new BadRequestException("L'utente " + body.username() + " esiste già!");
         });
-        Ruolo found = ruoliService.findByRole(TipoRuolo.UTENTE);
+        Ruolo found = ruoliService.findByRuolo(TipoRuolo.UTENTE);
         Utente nuovoUtente = new Utente(body.username(), body.email(), passwordEncoder.encode(body.password()), body.nome(), body.cognome());
         if (!nuovoUtente.getRuoli().contains(found)) {
             nuovoUtente.setRuoli(Set.of(found));

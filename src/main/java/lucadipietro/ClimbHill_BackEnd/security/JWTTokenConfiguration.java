@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 public class JWTTokenConfiguration {
-    private String secret;
+    private final String secret;
 
     public JWTTokenConfiguration(@Value("${jwt.secret}") String secret) {
         this.secret = secret;

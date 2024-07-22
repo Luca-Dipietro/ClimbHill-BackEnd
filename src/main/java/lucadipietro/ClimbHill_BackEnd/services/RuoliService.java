@@ -12,7 +12,7 @@ public class RuoliService {
     @Autowired
     private RuoliRepository ruoliRepository;
 
-    public Ruolo findByRole(TipoRuolo ruolo) {
-        return ruoliRepository.findByRole(ruolo).orElseThrow(() -> new NotFoundException("Ruolo " + ruolo + " non trovato!"));
+    public Ruolo findByRuolo(TipoRuolo ruolo) {
+        return ruoliRepository.findByRuolo(ruolo).orElseThrow(() -> new NotFoundException("Ruolo " + ruolo + " non trovato!"));
     }
 }
