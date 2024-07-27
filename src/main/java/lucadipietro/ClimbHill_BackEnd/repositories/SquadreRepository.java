@@ -4,8 +4,10 @@ import lucadipietro.ClimbHill_BackEnd.entities.Squadra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface SquadreRepository extends JpaRepository<Squadra, UUID> {
+    Optional<Squadra> findByNome(String nome);
 }

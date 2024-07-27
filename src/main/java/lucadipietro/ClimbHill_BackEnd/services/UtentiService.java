@@ -39,11 +39,11 @@ public class UtentiService {
     public Utente save(UtenteDTO body) {
         utentiRepository.findByEmail(body.email()).ifPresent(
                 utente -> {
-                    throw new BadRequestException("L'utente con l'email: " + body.email() + " esiste già!");
+                    throw new BadRequestException("L'utente con l'email: " + body.email() + " è già presente!");
         });
         utentiRepository.findByUsername(body.username()).ifPresent(
                 utente -> {
-                    throw new BadRequestException("L'utente " + body.username() + " esiste già!");
+                    throw new BadRequestException("L'utente " + body.username() + " è già presente!");
         });
         Ruolo found = ruoliService.findByRuolo(TipoRuolo.UTENTE);
         Utente nuovoUtente = new Utente(body.username(), body.email(), passwordEncoder.encode(body.password()), body.nome(), body.cognome());
@@ -53,7 +53,7 @@ public class UtentiService {
             throw new BadRequestException("L'utente " + body.nome() + " possiede già questo ruolo");
         }
         nuovoUtente.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
-        return utentiRepository.save(nuovoUtente);
+        return this.utentiRepository.save(nuovoUtente);
     }
 
     public Utente findById(UUID utenteId) {
@@ -64,10 +64,18 @@ public class UtentiService {
         return this.utentiRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
 
+    public Utente findByUsername(String username){
+        return this.utentiRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("Utente con l'username " + username + " non trovato!"));
+    }
+
     public Page<Utente> getUtenti(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return utentiRepository.findAll(pageable);
+    }
+
+    public Utente update(Utente utente) {
+        return utentiRepository.save(utente);
     }
 
     public Utente findByIdAndUpdate(UUID utenteId, UtenteDTO body) {
