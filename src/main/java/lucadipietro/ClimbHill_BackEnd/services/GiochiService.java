@@ -1,7 +1,6 @@
 package lucadipietro.ClimbHill_BackEnd.services;
 
 import lucadipietro.ClimbHill_BackEnd.entities.Gioco;
-import lucadipietro.ClimbHill_BackEnd.entities.Utente;
 import lucadipietro.ClimbHill_BackEnd.exceptions.BadRequestException;
 import lucadipietro.ClimbHill_BackEnd.exceptions.NotFoundException;
 import lucadipietro.ClimbHill_BackEnd.payloads.GiocoDTO;
@@ -32,6 +31,10 @@ public class GiochiService {
 
     public Gioco findById(UUID giocoId) {
         return this.giochiRepository.findById(giocoId).orElseThrow(() -> new NotFoundException(giocoId));
+    }
+
+    public Gioco findByNome(String nome){
+        return this.giochiRepository.findByNome(nome).orElseThrow(() -> new NotFoundException(nome));
     }
 
     public Page<Gioco> getGiochi(int pageNumber, int pageSize, String sortBy) {
