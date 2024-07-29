@@ -38,11 +38,15 @@ public class Partecipazione {
     @JoinColumn(name = "statistica_id")
     private Statistica statistica;
 
-    public Partecipazione(Utente utente, Squadra squadra,Torneo torneo, Statistica statistica) {
+    public Partecipazione(Utente utente, Torneo torneo) {
         this.dataIscrizione = LocalDate.now();
         this.utente = utente;
+        this.torneo = torneo;
+    }
+
+    public Partecipazione(Squadra squadra, Torneo torneo) {
+        this.dataIscrizione = LocalDate.now();
         this.squadra = squadra;
         this.torneo = torneo;
-        this.statistica = statistica;
     }
 }

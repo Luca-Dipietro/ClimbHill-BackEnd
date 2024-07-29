@@ -32,16 +32,16 @@ public class Utente implements UserDetails {
     private String avatar;
 
     @ManyToMany(mappedBy = "membri")
-    private Set<Squadra> squadre;
+    private List<Squadra> squadre;
 
     @OneToMany(mappedBy = "utente")
-    private Set<Partecipazione> partecipazioni;
+    private List<Partecipazione> partecipazioni;
 
     @ManyToMany(mappedBy = "utenti")
-    private Set<Partita> partite;
+    private List<Partita> partite;
 
     @OneToMany(mappedBy = "utente")
-    private Set<Statistica> statistiche;
+    private List<Statistica> statistiche;
 
     @ManyToMany
     @JoinTable(
@@ -49,10 +49,10 @@ public class Utente implements UserDetails {
             joinColumns = @JoinColumn(name = "utente_id"),
             inverseJoinColumns = @JoinColumn(name = "ruolo_id")
     )
-    private Set<Ruolo> ruoli;
+    private List<Ruolo> ruoli;
 
     @OneToMany(mappedBy = "utente")
-    private Set<Risultato> risultati;
+    private List<Risultato> risultati;
 
     public Utente(String username, String email, String password, String nome, String cognome) {
         this.username = username;
@@ -60,12 +60,12 @@ public class Utente implements UserDetails {
         this.password = password;
         this.nome = nome;
         this.cognome = cognome;
-        this.ruoli = new HashSet<>();
+        this.ruoli = new ArrayList<>();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return ruoli.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getRuolo().name())).collect(Collectors.toSet());
+        return ruoli.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getRuolo().name())).collect(Collectors.toList());
     }
 
     @Override

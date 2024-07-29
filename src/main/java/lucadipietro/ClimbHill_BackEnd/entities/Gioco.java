@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "giochi")
@@ -24,11 +22,11 @@ public class Gioco {
     private String descrizione;
 
     @OneToMany(mappedBy = "gioco")
-    private Set<Torneo> tornei;
+    private List<Torneo> tornei;
 
     public Gioco(String nome, String descrizione) {
         this.nome = nome;
         this.descrizione = descrizione;
-        this.tornei = new HashSet<>();
+        this.tornei = new ArrayList<>();
     }
 }

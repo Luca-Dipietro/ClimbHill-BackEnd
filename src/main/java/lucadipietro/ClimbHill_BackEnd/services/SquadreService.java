@@ -11,6 +11,7 @@ import lucadipietro.ClimbHill_BackEnd.repositories.SquadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,13 +38,17 @@ public class SquadreService {
         Squadra nuovaSquadra = new Squadra(body.nome());
         nuovaSquadra.getMembri().add(creatore);
         Ruolo found = ruoliService.findByRuolo(TipoRuolo.CAPO_SQUADRA);
-        creatore.setRuoli(Set.of(found));
+        creatore.setRuoli(List.of(found));
         utentiService.update(creatore);
         return squadreRepository.save(nuovaSquadra);
     }
 
     public Squadra findById(UUID squadraId) {
         return this.squadreRepository.findById(squadraId).orElseThrow(() -> new NotFoundException(squadraId));
+    }
+
+    public Squadra findByNome(String nome){
+        return this.squadreRepository.findByNome(nome).orElseThrow(() -> new NotFoundException(nome));
     }
 
     public Squadra findByIdAndUpdate(UUID squadraId, SquadraDTO body) {

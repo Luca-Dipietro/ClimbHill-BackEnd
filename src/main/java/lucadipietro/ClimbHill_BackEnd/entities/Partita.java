@@ -8,9 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "partite")
@@ -38,7 +36,7 @@ public class Partita {
             joinColumns = @JoinColumn(name = "partita_id"),
             inverseJoinColumns = @JoinColumn(name = "utente_id")
     )
-    private Set<Utente> utenti;
+    private List<Utente> utenti;
 
     @ManyToMany
     @JoinTable(
@@ -46,18 +44,18 @@ public class Partita {
             joinColumns = @JoinColumn(name = "partita_id"),
             inverseJoinColumns = @JoinColumn(name = "squadra_id")
     )
-    private Set<Squadra> squadre;
+    private List<Squadra> squadre;
 
     @OneToMany(mappedBy = "partita")
-    private Set<Risultato> risultati;
+    private List<Risultato> risultati;
 
-    public Partita(LocalDate dataInizio, LocalTime oraInizio, int round, Torneo torneo) {
+    public Partita(LocalDate dataInizio, LocalTime oraInizio, Torneo torneo) {
         this.dataInizio = dataInizio;
         this.oraInizio = oraInizio;
-        this.round = round;
+        this.round = 1;
         this.torneo = torneo;
-        this.utenti = new HashSet<>();
-        this.squadre = new HashSet<>();
-        this.risultati = new HashSet<>();
+        this.utenti = new ArrayList<>();
+        this.squadre = new ArrayList<>();
+        this.risultati = new ArrayList<>();
     }
 }

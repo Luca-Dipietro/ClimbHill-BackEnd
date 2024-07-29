@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lucadipietro.ClimbHill_BackEnd.enums.TipoRuolo;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,7 +23,7 @@ public class Ruolo {
     private TipoRuolo ruolo;
 
     @ManyToMany(mappedBy = "ruoli")
-    private Set<Utente> utenti;
+    private List<Utente> utenti;
 
     public Ruolo(TipoRuolo ruolo) {
         this.ruolo = ruolo;

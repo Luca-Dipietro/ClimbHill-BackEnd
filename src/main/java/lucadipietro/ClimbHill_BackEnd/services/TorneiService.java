@@ -44,6 +44,10 @@ public class TorneiService {
         return this.torneiRepository.findById(torneoId).orElseThrow(() -> new NotFoundException(torneoId));
     }
 
+    public Torneo findByNome(String nome){
+        return this.torneiRepository.findByNome(nome).orElseThrow(() -> new NotFoundException(nome));
+    }
+
     public Page<Torneo> getTornei(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));

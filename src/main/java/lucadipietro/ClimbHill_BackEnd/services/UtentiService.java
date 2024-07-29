@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class UtentiService {
         Ruolo found = ruoliService.findByRuolo(TipoRuolo.UTENTE);
         Utente nuovoUtente = new Utente(body.username(), body.email(), passwordEncoder.encode(body.password()), body.nome(), body.cognome());
         if (!nuovoUtente.getRuoli().contains(found)) {
-            nuovoUtente.setRuoli(Set.of(found));
+            nuovoUtente.setRuoli(List.of(found));
         } else {
             throw new BadRequestException("L'utente " + body.nome() + " possiede già questo ruolo");
         }

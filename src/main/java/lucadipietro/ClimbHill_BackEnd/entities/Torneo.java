@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lucadipietro.ClimbHill_BackEnd.enums.TipoTorneo;
 
-import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tornei")
@@ -37,10 +34,10 @@ public class Torneo {
     private Gioco gioco;
 
     @OneToMany(mappedBy = "torneo")
-    private Set<Partecipazione> partecipazioni;
+    private List<Partecipazione> partecipazioni;
 
     @OneToMany(mappedBy = "torneo")
-    private Set<Partita> partite;
+    private List<Partita> partite;
 
     public Torneo(String nome, String descrizione, LocalDate dataInizioIscrizione, LocalDate dataFineIscrizione, TipoTorneo tipoTorneo, Gioco gioco) {
         this.nome = nome;
@@ -49,7 +46,7 @@ public class Torneo {
         this.dataFineIscrizione = dataFineIscrizione;
         this.tipoTorneo = tipoTorneo;
         this.gioco = gioco;
-        this.partecipazioni = new HashSet<>();
-        this.partite = new HashSet<>();
+        this.partecipazioni = new ArrayList<>();
+        this.partite = new ArrayList<>();
     }
 }

@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -27,22 +25,22 @@ public class Squadra {
             joinColumns = @JoinColumn(name = "squadra_id"),
             inverseJoinColumns = @JoinColumn(name = "utente_id")
     )
-    private Set<Utente> membri;
+    private List<Utente> membri;
 
     @OneToMany(mappedBy = "squadra")
-    private Set<Partecipazione> partecipazioni;
+    private List<Partecipazione> partecipazioni;
 
     @ManyToMany(mappedBy = "squadre")
-    private Set<Partita> partite;
+    private List<Partita> partite;
 
     @OneToMany(mappedBy = "squadra")
-    private Set<Statistica> statistiche;
+    private List<Statistica> statistiche;
 
     @OneToMany(mappedBy = "squadra")
-    private Set<Risultato> risultati;
+    private List<Risultato> risultati;
 
     public Squadra(String nome) {
         this.nome = nome;
-        this.membri = new HashSet<>();
+        this.membri = new ArrayList<>();
     }
 }
