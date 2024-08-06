@@ -37,7 +37,7 @@ public class ServerConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
 
@@ -48,7 +48,7 @@ public class ServerConfiguration {
 
     @Bean
     PasswordEncoder getBCrypt(){
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
