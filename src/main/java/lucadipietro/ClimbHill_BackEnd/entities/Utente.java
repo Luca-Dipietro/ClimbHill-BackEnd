@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked"})
+@JsonIgnoreProperties({"password", "authorities","ruolo", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked"})
 public class Utente implements UserDetails {
     @Id
     @GeneratedValue
@@ -31,19 +31,19 @@ public class Utente implements UserDetails {
     private String cognome;
     private String avatar;
 
-    @ManyToMany(mappedBy = "membri")
+    @ManyToMany(mappedBy = "membri", fetch = FetchType.EAGER)
     private List<Squadra> squadre;
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente",fetch = FetchType.EAGER)
     private List<Partecipazione> partecipazioni;
 
-    @ManyToMany(mappedBy = "utenti")
+    @ManyToMany(mappedBy = "utenti",fetch = FetchType.EAGER)
     private List<Partita> partite;
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente",fetch = FetchType.EAGER)
     private List<Statistica> statistiche;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "utente_ruoli",
             joinColumns = @JoinColumn(name = "utente_id"),
@@ -51,7 +51,7 @@ public class Utente implements UserDetails {
     )
     private List<Ruolo> ruoli;
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente",fetch = FetchType.EAGER)
     private List<Risultato> risultati;
 
     public Utente(String username, String email, String password, String nome, String cognome) {
