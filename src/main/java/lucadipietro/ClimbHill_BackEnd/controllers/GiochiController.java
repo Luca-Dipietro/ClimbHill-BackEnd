@@ -34,7 +34,7 @@ public class GiochiController {
         return giochiService.findById(giocoId);
     }
 
-    @GetMapping("/nome/{nome}")
+    @GetMapping("/nomeGioco/{nome}")
     public Gioco findByNome(@PathVariable String nome) {
         return giochiService.findByNome(nome);
     }
