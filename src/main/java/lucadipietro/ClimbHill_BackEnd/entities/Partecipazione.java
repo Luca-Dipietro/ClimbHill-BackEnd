@@ -1,5 +1,6 @@
 package lucadipietro.ClimbHill_BackEnd.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"torneo"})
 public class Partecipazione {
     @Id
     @GeneratedValue

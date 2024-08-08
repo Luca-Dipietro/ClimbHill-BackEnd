@@ -89,7 +89,7 @@ public class TorneiService {
         List<Predicate> predicates = new ArrayList<>();
 
         if (nome != null && !nome.isEmpty()) {
-            predicates.add(cb.like(cb.lower(torneo.get("nome")), "%" + nome + "%"));
+            predicates.add(cb.like(torneo.get("nome"), "%" + nome + "%"));
         }
 
         if (tipoTorneo != null) {

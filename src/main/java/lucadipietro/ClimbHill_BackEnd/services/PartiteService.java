@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PartiteService {
@@ -27,19 +26,20 @@ public class PartiteService {
     @Autowired
     PartecipazioniService partecipazioniService;
 
-//    public Partita save(PartitaDTO body){
-//        Torneo found = torneiService.findByNome(body.nomeTorneo());
-//        Partita nuovaPartita = new Partita(LocalDate.parse(body.dataInizio()), LocalTime.parse(body.oraInizio()), found);
-//        Optional<Partecipazione> foundPartecipazioni = partecipazioniService.getListaPartecipazioni(found.getPartecipazioni());
-//        List<Utente> utenti = foundPartecipazioni.stream().map(Partecipazione::getUtente).toList();
-//        List<Squadra> squadre = foundPartecipazioni.stream().map(Partecipazione::getSquadra).toList();
-//
-//        if(found.getTipoTorneo().equals(TipoTorneo.TORNEO_SINGOLO)){
-//            nuovaPartita.getUtenti().addAll(utenti);
-//        } else {
-//            nuovaPartita.getSquadre().addAll(squadre);
-//        }
-//
-//        return this.partiteRepository.save(nuovaPartita);
-//    }
+    public Partita save(PartitaDTO body){
+        Torneo found = torneiService.findByNome(body.nomeTorneo());
+        Partita nuovaPartita = new Partita(LocalDate.parse(body.dataInizio()), LocalTime.parse(body.oraInizio()), found);
+        List<Partecipazione> foundPartecipazioni = partecipazioniService.getPartecipazioni(0, Integer.MAX_VALUE, "id").stream()
+                .filter(partecipazione -> partecipazione.getTorneo().getId().equals(found.getId()))
+                .toList();
+        if(found.getTipoTorneo().equals(TipoTorneo.TORNEO_SINGOLO)){
+            List<Utente> utenti = foundPartecipazioni.stream().map(Partecipazione::getUtente).toList();
+            nuovaPartita.getUtenti().addAll(utenti);
+        } else {
+            List<Squadra> squadre = foundPartecipazioni.stream().map(Partecipazione::getSquadra).toList();
+            nuovaPartita.getSquadre().addAll(squadre);
+        }
+
+        return this.partiteRepository.save(nuovaPartita);
+    }
 }
