@@ -30,6 +30,8 @@ public class Torneo {
     private LocalDate dataFineIscrizione;
     @Enumerated(EnumType.STRING)
     private TipoTorneo tipoTorneo;
+    @Column(name = "numero_massimo_partecipanti")
+    private int numeroMaxPartecipanti;
 
     @ManyToOne
     @JoinColumn(name = "gioco_id")
@@ -41,12 +43,13 @@ public class Torneo {
     @OneToMany(mappedBy = "torneo")
     private List<Partita> partite;
 
-    public Torneo(String nome, String descrizione, LocalDate dataInizioIscrizione, LocalDate dataFineIscrizione, TipoTorneo tipoTorneo, Gioco gioco) {
+    public Torneo(String nome, String descrizione, LocalDate dataInizioIscrizione, LocalDate dataFineIscrizione, TipoTorneo tipoTorneo,int numeroMaxPartecipanti, Gioco gioco) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.dataInizioIscrizione = dataInizioIscrizione;
         this.dataFineIscrizione = dataFineIscrizione;
         this.tipoTorneo = tipoTorneo;
+        this.numeroMaxPartecipanti = numeroMaxPartecipanti;
         this.gioco = gioco;
         this.partecipazioni = new ArrayList<>();
         this.partite = new ArrayList<>();

@@ -41,6 +41,7 @@ public class TorneiService {
                 LocalDate.parse(body.dataInizioIscrizione()),
                 LocalDate.parse(body.dataFineIscrizione()),
                 TipoTorneo.getTipoTorneo(body.tipoTorneo()),
+                body.numeroMaxPartecipanti(),
                 found);
         return this.torneiRepository.save(nuovoTorneo);
     }
@@ -70,6 +71,7 @@ public class TorneiService {
         torneoFound.setDataInizioIscrizione(LocalDate.parse(body.dataInizioIscrizione()));
         torneoFound.setDataFineIscrizione(LocalDate.parse(body.dataFineIscrizione()));
         torneoFound.setTipoTorneo(TipoTorneo.getTipoTorneo(body.tipoTorneo()));
+        torneoFound.setNumeroMaxPartecipanti(body.numeroMaxPartecipanti());
         torneoFound.setGioco(giocoFound);
         return this.torneiRepository.save(torneoFound);
     }

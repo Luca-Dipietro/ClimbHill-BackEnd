@@ -1,6 +1,7 @@
 package lucadipietro.ClimbHill_BackEnd.payloads;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record TorneoDTO(
@@ -9,6 +10,8 @@ public record TorneoDTO(
         String nome,
         @NotEmpty(message = "La descrizione deve essere un dato obbligatorio")
         String descrizione,
+        @NotNull
+        int numeroMaxPartecipanti,
         @NotEmpty(message = "La data di inizio iscrizione deve essere un dato obbligatorio")
         String dataInizioIscrizione,
         @NotEmpty(message = "La data di fine iscrizione deve essere un dato obbligatorio")
