@@ -19,12 +19,13 @@ public class Statistica {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
+    private int vittorie;
+    @Column(name = "partite_giocate")
+    private int numeroPartiteGiocate;
+
     @ManyToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
-
-    @OneToMany(mappedBy = "statistica")
-    private List<Risultato> risultati;
 
     @OneToMany(mappedBy = "statistica")
     private List<Partecipazione> partecipazioni;
@@ -34,14 +35,24 @@ public class Statistica {
     private Squadra squadra;
 
     public Statistica(Utente utente) {
-        this.risultati = new ArrayList<>();
         this.partecipazioni = new ArrayList<>();
         this.utente = utente;
+        this.vittorie = 0;
+        this.numeroPartiteGiocate = 0;
     }
 
     public Statistica(Squadra squadra) {
-        this.risultati = new ArrayList<>();
         this.partecipazioni = new ArrayList<>();
         this.squadra = squadra;
+        this.vittorie = 0;
+        this.numeroPartiteGiocate = 0;
+    }
+
+    public void incrementaVittorie() {
+        this.vittorie++;
+    }
+
+    public void incrementaPartiteGiocate() {
+        this.numeroPartiteGiocate++;
     }
 }

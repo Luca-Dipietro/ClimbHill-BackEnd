@@ -32,15 +32,10 @@ public class Risultato {
     @JoinColumn(name = "squadra_id")
     private Squadra squadra;
 
-    @ManyToOne
-    @JoinColumn(name = "statistica_id")
-    private Statistica statistica;
-
-    public Risultato(int punteggio, Partita partita, Utente utente, Squadra squadra, Statistica statistica) {
+    public Risultato(int punteggio, Partita partita, Utente utente, Squadra squadra) {
         this.punteggio = punteggio;
         this.partita = partita;
         this.utente = utente;
         this.squadra = squadra;
-        this.statistica = statistica;
     }
 }
