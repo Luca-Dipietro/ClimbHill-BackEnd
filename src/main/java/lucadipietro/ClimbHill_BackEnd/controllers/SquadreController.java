@@ -39,7 +39,7 @@ public class SquadreController {
     }
 
     @PutMapping("/{squadraId}")
-    public Squadra updateSquadra(@PathVariable UUID squadraId, @RequestBody @Validated SquadraDTO body, BindingResult validationResult) {
+    public Squadra findByIdAndUpdate(@PathVariable UUID squadraId, @RequestBody @Validated SquadraDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
         }
@@ -48,7 +48,7 @@ public class SquadreController {
 
     @DeleteMapping("/{squadraId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteSquadra(@PathVariable UUID squadraId) {
+    public void findByIdAndDelete(@PathVariable UUID squadraId) {
         squadreService.findByIdAndDelete(squadraId);
     }
 

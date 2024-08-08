@@ -47,7 +47,7 @@ public class GiochiController {
     }
 
     @PutMapping("/{giocoId}")
-    public Gioco updateGioco(@PathVariable UUID giocoId, @RequestBody @Validated GiocoDTO body, BindingResult validationResult) {
+    public Gioco findByIdAndUpdate(@PathVariable UUID giocoId, @RequestBody @Validated GiocoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
         }
@@ -56,7 +56,7 @@ public class GiochiController {
 
     @DeleteMapping("/{giocoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGioco(@PathVariable UUID giocoId) {
+    public void findByIdAndDelete(@PathVariable UUID giocoId) {
         giochiService.findByIdAndDelete(giocoId);
     }
 }

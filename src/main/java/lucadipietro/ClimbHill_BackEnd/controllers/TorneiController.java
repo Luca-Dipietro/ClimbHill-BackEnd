@@ -44,7 +44,7 @@ public class TorneiController {
     }
 
     @PutMapping("/{torneoId}")
-    public Torneo updateTorneo(@PathVariable UUID torneoId, @RequestBody @Validated TorneoDTO body, BindingResult validationResult) {
+    public Torneo findByIdAndUpdate(@PathVariable UUID torneoId, @RequestBody @Validated TorneoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
         }
@@ -53,7 +53,7 @@ public class TorneiController {
 
     @DeleteMapping("/{torneoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTorneo(@PathVariable UUID torneoId) {
+    public void findByIdAndDelete(@PathVariable UUID torneoId) {
         torneiService.findByIdAndDelete(torneoId);
     }
 

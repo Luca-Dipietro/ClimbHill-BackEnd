@@ -31,7 +31,7 @@ public class RisultatiService {
     @Autowired
     private SquadreService squadreService;
 
-    public Risultato save(RisultatoDTO body, UUID partitaId, UUID statisticaId) {
+    public Risultato save(RisultatoDTO body, UUID partitaId) {
         Partita partita = partiteService.findById(partitaId);
 
         Utente utente = null;
