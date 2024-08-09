@@ -1,6 +1,8 @@
 package lucadipietro.ClimbHill_BackEnd.repositories;
 
+import lucadipietro.ClimbHill_BackEnd.entities.Squadra;
 import lucadipietro.ClimbHill_BackEnd.entities.Statistica;
+import lucadipietro.ClimbHill_BackEnd.entities.Utente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

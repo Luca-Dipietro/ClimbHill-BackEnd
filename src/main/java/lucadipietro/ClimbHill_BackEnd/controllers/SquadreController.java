@@ -6,7 +6,9 @@ import lucadipietro.ClimbHill_BackEnd.exceptions.BadRequestException;
 import lucadipietro.ClimbHill_BackEnd.payloads.SquadraDTO;
 import lucadipietro.ClimbHill_BackEnd.services.SquadreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -71,9 +74,19 @@ public class SquadreController {
         squadreService.removeMembro(squadraId, utenteId);
     }
 
-    @PatchMapping("/{utenteId}/avatar")
+    @PatchMapping("/{squadraId}/avatar")
     @PreAuthorize("hasAuthority('CAPO_SQUADRA') or ('ADMIN')")
     public Squadra uploadAvatar(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
         return this.squadreService.uploadImage(utenteId, image);
+    }
+
+    @GetMapping
+    public Page<Squadra> getAllSquadre(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
+        return this.squadreService.getSquadre(page, size, sortBy);
+    }
+
+    @GetMapping("/{utenteId}")
+    public List<Squadra> getSquadreByUtenteId(@PathVariable UUID utenteId) {
+        return this.squadreService.getSquadreByUtenteId(utenteId);
     }
 }

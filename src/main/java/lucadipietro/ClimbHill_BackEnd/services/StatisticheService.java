@@ -40,16 +40,28 @@ public class StatisticheService {
             squadra = squadreService.findByNome(body.nomeSquadra());
         }
 
-        Statistica nuovaStatistica;
         if (utente != null) {
-            nuovaStatistica = new Statistica(utente);
-        } else if (squadra != null) {
-            nuovaStatistica = new Statistica(squadra);
-        } else {
-            throw new BadRequestException("Devi fornire un utente o una squadra.");
+            Statistica esistenteStatistica = this.findByUtenteId(utente.getId());
+            if (esistenteStatistica != null) {
+                return esistenteStatistica;
+            } else {
+                Statistica nuovaStatistica = new Statistica(utente);
+                return this.statisticheRepository.save(nuovaStatistica);
+            }
         }
 
-        return this.statisticheRepository.save(nuovaStatistica);
+        if (squadra != null) {
+            Statistica esistenteStatistica = this.findBySquadraId(squadra.getId());
+            if (esistenteStatistica != null) {
+                return esistenteStatistica;
+            } else {
+                Statistica nuovaStatistica = new Statistica(squadra);
+                return this.statisticheRepository.save(nuovaStatistica);
+            }
+        }
+        else {
+            throw new BadRequestException("Devi fornire un utente o una squadra.");
+        }
     }
 
     public Statistica findById(UUID statisticaId) {

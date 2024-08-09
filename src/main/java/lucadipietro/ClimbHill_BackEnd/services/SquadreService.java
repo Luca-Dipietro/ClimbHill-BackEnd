@@ -11,10 +11,16 @@ import lucadipietro.ClimbHill_BackEnd.exceptions.NotFoundException;
 import lucadipietro.ClimbHill_BackEnd.payloads.SquadraDTO;
 import lucadipietro.ClimbHill_BackEnd.repositories.SquadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,6 +37,12 @@ public class SquadreService {
 
     @Autowired
     private Cloudinary cloudinary;
+
+    public Page<Squadra> getSquadre(int pageNumber, int pageSize, String sortBy) {
+        if (pageSize > 50) pageSize = 50;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return squadreRepository.findAll(pageable);
+    }
 
     public Squadra save(SquadraDTO body, UUID utenteId){
         Utente creatore = utentiService.findById(utenteId);
@@ -108,5 +120,10 @@ public class SquadreService {
         String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         found.setAvatar(url);
         return this.squadreRepository.save(found);
+    }
+
+    public List<Squadra> getSquadreByUtenteId(UUID utenteId) {
+        Utente utente = utentiService.findById(utenteId);
+        return new ArrayList<>(utente.getSquadre());
     }
 }
