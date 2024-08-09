@@ -15,7 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"torneo"})
+@JsonIgnoreProperties({"torneo","utente","squadra","statistica"})
 public class Partecipazione {
     @Id
     @GeneratedValue

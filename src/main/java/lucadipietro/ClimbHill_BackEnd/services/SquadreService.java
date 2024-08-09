@@ -37,7 +37,7 @@ public class SquadreService {
         Squadra nuovaSquadra = new Squadra(body.nome());
         nuovaSquadra.getMembri().add(creatore);
         Ruolo found = ruoliService.findByRuolo(TipoRuolo.CAPO_SQUADRA);
-        creatore.setRuoli(List.of(found));
+        creatore.getRuoli().add(found);
         utentiService.update(creatore);
         return squadreRepository.save(nuovaSquadra);
     }
