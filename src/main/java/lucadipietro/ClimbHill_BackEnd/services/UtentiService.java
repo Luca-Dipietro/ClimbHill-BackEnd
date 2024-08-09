@@ -39,9 +39,6 @@ public class UtentiService {
     @Autowired
     private Cloudinary cloudinary;
 
-    @Autowired
-    private StatisticheService statisticheService;
-
     public Utente save(UtenteDTO body) {
         utentiRepository.findByEmail(body.email()).ifPresent(
                 utente -> {
