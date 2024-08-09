@@ -3,10 +3,12 @@ package lucadipietro.ClimbHill_BackEnd.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lucadipietro.ClimbHill_BackEnd.entities.Ruolo;
+import lucadipietro.ClimbHill_BackEnd.entities.Statistica;
 import lucadipietro.ClimbHill_BackEnd.entities.Utente;
 import lucadipietro.ClimbHill_BackEnd.enums.TipoRuolo;
 import lucadipietro.ClimbHill_BackEnd.exceptions.BadRequestException;
 import lucadipietro.ClimbHill_BackEnd.exceptions.NotFoundException;
+import lucadipietro.ClimbHill_BackEnd.payloads.StatisticaDTO;
 import lucadipietro.ClimbHill_BackEnd.payloads.UtenteDTO;
 import lucadipietro.ClimbHill_BackEnd.repositories.UtentiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class UtentiService {
 
     @Autowired
     private Cloudinary cloudinary;
+
+    @Autowired
+    private StatisticheService statisticheService;
 
     public Utente save(UtenteDTO body) {
         utentiRepository.findByEmail(body.email()).ifPresent(

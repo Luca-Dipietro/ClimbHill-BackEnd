@@ -31,7 +31,6 @@ public class StatisticheController {
     }
 
     @GetMapping("/{statisticaId}")
-    @PreAuthorize("hasAuthority ('ADMIN')")
     public Statistica findById(@PathVariable UUID statisticaId) {
         return statisticheService.findById(statisticaId);
     }
