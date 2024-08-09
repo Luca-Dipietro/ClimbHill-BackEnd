@@ -7,6 +7,7 @@ import lucadipietro.ClimbHill_BackEnd.services.StatisticheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,13 @@ public class StatisticheController {
     }
 
     @GetMapping("/{statisticaId}")
+    @PreAuthorize("hasAuthority ('ADMIN')")
     public Statistica findById(@PathVariable UUID statisticaId) {
         return statisticheService.findById(statisticaId);
     }
 
     @PutMapping("/{statisticaId}")
+    @PreAuthorize("hasAuthority ('ADMIN')")
     public Statistica findByIdAndUpdate(@PathVariable UUID statisticaId,
                                         @RequestBody @Validated StatisticaDTO body,
                                         BindingResult validationResult) {
@@ -45,6 +48,7 @@ public class StatisticheController {
     }
 
     @DeleteMapping("/{statisticaId}")
+    @PreAuthorize("hasAuthority ('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable UUID statisticaId) {
         statisticheService.findByIdAndDelete(statisticaId);

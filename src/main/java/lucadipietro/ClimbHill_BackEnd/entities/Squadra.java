@@ -20,6 +20,7 @@ public class Squadra {
     @Setter(AccessLevel.NONE)
     private UUID id;
     private String nome;
+    private String avatar;
 
     @ManyToMany
     @JoinTable(

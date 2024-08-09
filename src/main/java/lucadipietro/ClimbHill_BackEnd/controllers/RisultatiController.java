@@ -7,6 +7,7 @@ import lucadipietro.ClimbHill_BackEnd.services.RisultatiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class RisultatiController {
 
     @PostMapping("/{partitaId}")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     public Risultato creaRisultato(@RequestBody @Validated RisultatoDTO body,
                                    @PathVariable UUID partitaId,BindingResult validationResult) {
         if (validationResult.hasErrors()) {
@@ -36,6 +38,7 @@ public class RisultatiController {
     }
 
     @PutMapping("/{risultatoId}")
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     public Risultato findByIdAndUpdate(@PathVariable UUID risultatoId,
                                        @RequestBody @Validated RisultatoDTO body,
                                        BindingResult validationResult) {
@@ -46,6 +49,7 @@ public class RisultatiController {
     }
 
     @DeleteMapping("/{risultatoId}")
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable UUID risultatoId) {
         risultatiService.findByIdAndDelete(risultatoId);

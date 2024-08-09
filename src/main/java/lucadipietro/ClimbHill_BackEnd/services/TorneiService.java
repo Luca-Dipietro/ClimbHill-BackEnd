@@ -4,7 +4,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import lucadipietro.ClimbHill_BackEnd.entities.Gioco;
+import lucadipietro.ClimbHill_BackEnd.entities.Ruolo;
 import lucadipietro.ClimbHill_BackEnd.entities.Torneo;
+import lucadipietro.ClimbHill_BackEnd.entities.Utente;
+import lucadipietro.ClimbHill_BackEnd.enums.TipoRuolo;
 import lucadipietro.ClimbHill_BackEnd.enums.TipoTorneo;
 import lucadipietro.ClimbHill_BackEnd.exceptions.BadRequestException;
 import lucadipietro.ClimbHill_BackEnd.exceptions.NotFoundException;
@@ -29,9 +32,16 @@ public class TorneiService {
     private GiochiService giochiService;
 
     @Autowired
+    private UtentiService utentiService;
+
+    @Autowired
+    private RuoliService ruoliService;
+
+    @Autowired
     EntityManager entityManager;
 
-    public Torneo save(TorneoDTO body){
+    public Torneo save(TorneoDTO body, UUID utenteId){
+        Utente organizzatore = utentiService.findById(utenteId);
         if(LocalDate.parse(body.dataInizioIscrizione()).isAfter(LocalDate.parse(body.dataFineIscrizione()))){
          throw new BadRequestException("La data di inizio iscrizione non può essere dopo la data di fine iscrizione.");
         }
@@ -43,6 +53,9 @@ public class TorneiService {
                 TipoTorneo.getTipoTorneo(body.tipoTorneo()),
                 body.numeroMaxPartecipanti(),
                 found);
+        Ruolo foundRuolo = ruoliService.findByRuolo(TipoRuolo.ORGANIZZATORE);
+        organizzatore.getRuoli().add(foundRuolo);
+        utentiService.update(organizzatore);
         return this.torneiRepository.save(nuovoTorneo);
     }
 

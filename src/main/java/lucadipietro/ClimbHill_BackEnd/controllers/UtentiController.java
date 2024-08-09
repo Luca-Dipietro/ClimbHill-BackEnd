@@ -34,13 +34,11 @@ public class UtentiController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Utente> getAllUtenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return this.utentiService.getUtenti(page, size, sortBy);
     }
 
     @GetMapping("/{utenteId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Utente findById(@PathVariable UUID utenteId) {
         return this.utentiService.findById(utenteId);
     }
@@ -64,12 +62,12 @@ public class UtentiController {
 
     @PatchMapping("/{utenteId}/avatar")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Utente uploadAvatarFromAdmin(@PathVariable UUID userId, @RequestParam("avatar") MultipartFile image) throws IOException {
-        return this.utentiService.uploadImage(userId, image);
+    public Utente uploadAvatarFromAdmin(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
+        return this.utentiService.uploadImage(utenteId, image);
     }
 
     @PatchMapping("/me/avatar")
-    public Utente uploadAvatar(@PathVariable UUID userId, @RequestParam("avatar") MultipartFile image) throws IOException {
-        return this.utentiService.uploadImage(userId, image);
+    public Utente uploadAvatar(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
+        return this.utentiService.uploadImage(utenteId, image);
     }
 }

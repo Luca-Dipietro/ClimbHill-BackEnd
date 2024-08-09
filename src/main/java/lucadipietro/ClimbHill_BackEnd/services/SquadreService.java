@@ -1,5 +1,7 @@
 package lucadipietro.ClimbHill_BackEnd.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lucadipietro.ClimbHill_BackEnd.entities.Ruolo;
 import lucadipietro.ClimbHill_BackEnd.entities.Squadra;
 import lucadipietro.ClimbHill_BackEnd.entities.Utente;
@@ -10,8 +12,9 @@ import lucadipietro.ClimbHill_BackEnd.payloads.SquadraDTO;
 import lucadipietro.ClimbHill_BackEnd.repositories.SquadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -26,6 +29,9 @@ public class SquadreService {
     @Autowired
     private RuoliService ruoliService;
 
+    @Autowired
+    private Cloudinary cloudinary;
+
     public Squadra save(SquadraDTO body, UUID utenteId){
         Utente creatore = utentiService.findById(utenteId);
 
@@ -39,6 +45,7 @@ public class SquadreService {
         Ruolo found = ruoliService.findByRuolo(TipoRuolo.CAPO_SQUADRA);
         creatore.getRuoli().add(found);
         utentiService.update(creatore);
+        nuovaSquadra.setAvatar("https://ui-avatars.com/api/?name=" + body.nome());
         return squadreRepository.save(nuovaSquadra);
     }
 
@@ -53,6 +60,7 @@ public class SquadreService {
     public Squadra findByIdAndUpdate(UUID squadraId, SquadraDTO body) {
         Squadra found = this.findById(squadraId);
         found.setNome(body.nome());
+        found.setAvatar("https://ui-avatars.com/api/?name=" + body.nome());
         return this.squadreRepository.save(found);
     }
 
@@ -93,5 +101,12 @@ public class SquadreService {
         this.squadreRepository.save(squadra);
         this.utentiService.update(utente);
         return squadra;
+    }
+
+    public Squadra uploadImage(UUID squadraId, MultipartFile file) throws IOException {
+        Squadra found = this.findById(squadraId);
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        found.setAvatar(url);
+        return this.squadreRepository.save(found);
     }
 }

@@ -8,6 +8,7 @@ import lucadipietro.ClimbHill_BackEnd.services.TorneiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class TorneiController {
     @Autowired
     private TorneiService torneiService;
 
-    @PostMapping
+    @PostMapping("/{utenteId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Torneo createTorneo(@RequestBody @Validated TorneoDTO body, BindingResult validationResult) {
+    public Torneo createTorneo(@PathVariable UUID utenteId, @RequestBody @Validated TorneoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
         }
-        return torneiService.save(body);
+        return torneiService.save(body,utenteId);
     }
 
     @GetMapping("/{torneoId}")
@@ -44,6 +45,7 @@ public class TorneiController {
     }
 
     @PutMapping("/{torneoId}")
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     public Torneo findByIdAndUpdate(@PathVariable UUID torneoId, @RequestBody @Validated TorneoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
@@ -52,6 +54,7 @@ public class TorneiController {
     }
 
     @DeleteMapping("/{torneoId}")
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable UUID torneoId) {
         torneiService.findByIdAndDelete(torneoId);

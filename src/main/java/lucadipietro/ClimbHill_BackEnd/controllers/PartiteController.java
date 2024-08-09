@@ -9,6 +9,7 @@ import lucadipietro.ClimbHill_BackEnd.services.PartecipazioniService;
 import lucadipietro.ClimbHill_BackEnd.services.PartiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class PartiteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority ('ADMIN') or ('ORGANIZZATORE')")
     public Partita creaPartita(@RequestBody @Validated PartitaDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());

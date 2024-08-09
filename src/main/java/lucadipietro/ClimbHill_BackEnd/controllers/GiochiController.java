@@ -7,6 +7,7 @@ import lucadipietro.ClimbHill_BackEnd.services.GiochiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class GiochiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority ('ADMIN')")
     public Gioco createGioco(@RequestBody @Validated GiocoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
@@ -47,6 +49,7 @@ public class GiochiController {
     }
 
     @PutMapping("/{giocoId}")
+    @PreAuthorize("hasAuthority ('ADMIN')")
     public Gioco findByIdAndUpdate(@PathVariable UUID giocoId, @RequestBody @Validated GiocoDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
@@ -55,6 +58,7 @@ public class GiochiController {
     }
 
     @DeleteMapping("/{giocoId}")
+    @PreAuthorize("hasAuthority ('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable UUID giocoId) {
         giochiService.findByIdAndDelete(giocoId);
