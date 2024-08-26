@@ -59,4 +59,9 @@ public class StatisticheController {
                                               @RequestParam(defaultValue = "id") String sortBy) {
         return statisticheService.getStatistiche(page, size, sortBy);
     }
+
+    @GetMapping("/utente/{utenteId}")
+    public Statistica findByUtenteId(@PathVariable UUID utenteId) {
+        return statisticheService.findByUtenteId(utenteId);
+    }
 }
