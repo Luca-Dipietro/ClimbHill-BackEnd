@@ -16,7 +16,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"gioco","partecipazioni","partite"})
+@JsonIgnoreProperties({"partecipazioni","partite"})
 public class Torneo {
     @Id
     @GeneratedValue

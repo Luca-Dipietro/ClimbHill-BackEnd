@@ -15,7 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"partecipazioni","partite","risultati"})
+@JsonIgnoreProperties({"partecipazioni","partite","risultati","membri"})
 public class Squadra {
     @Id
     @GeneratedValue
@@ -38,7 +38,7 @@ public class Squadra {
     @ManyToMany(mappedBy = "squadre")
     private List<Partita> partite;
 
-    @OneToMany(mappedBy = "squadra")
+    @OneToMany(mappedBy = "squadra",fetch = FetchType.EAGER)
     private List<Statistica> statistiche;
 
     @OneToMany(mappedBy = "squadra")

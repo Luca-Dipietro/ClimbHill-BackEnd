@@ -29,5 +29,8 @@ public class Runner implements CommandLineRunner {
             ruoliRepository.save(new Ruolo(TipoRuolo.CAPO_SQUADRA));
         }
 
+        if (!ruoliRepository.existsByRuolo(TipoRuolo.ORGANIZZATORE)) {
+            ruoliRepository.save(new Ruolo(TipoRuolo.ORGANIZZATORE));
+        }
     }
 }
