@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -75,5 +76,10 @@ public class SquadreController {
     @PreAuthorize("hasAuthority('CAPO_SQUADRA') or ('ADMIN')")
     public Squadra uploadAvatar(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
         return this.squadreService.uploadImage(utenteId, image);
+    }
+
+    @GetMapping("/{squadraId}/membri")
+    public List<Utente> getMembri(@PathVariable UUID squadraId) {
+        return squadreService.getMembri(squadraId);
     }
 }

@@ -64,4 +64,9 @@ public class StatisticheController {
     public Statistica findByUtenteId(@PathVariable UUID utenteId) {
         return statisticheService.findByUtenteId(utenteId);
     }
+
+    @GetMapping("/squadra/{squadraId}")
+    public Statistica findBySquadraId(@PathVariable UUID squadraId) {
+        return statisticheService.findBySquadraId(squadraId);
+    }
 }

@@ -24,7 +24,7 @@ public class Squadra {
     private String nome;
     private String avatar;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "squadra_utenti",
             joinColumns = @JoinColumn(name = "squadra_id"),

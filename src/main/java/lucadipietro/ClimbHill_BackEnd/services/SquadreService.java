@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -108,5 +109,10 @@ public class SquadreService {
         String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         found.setAvatar(url);
         return this.squadreRepository.save(found);
+    }
+
+    public List<Utente> getMembri(UUID squadraId){
+        Squadra found = squadreRepository.findById(squadraId).orElseThrow(()->new NotFoundException(squadraId));
+        return found.getMembri();
     }
 }
