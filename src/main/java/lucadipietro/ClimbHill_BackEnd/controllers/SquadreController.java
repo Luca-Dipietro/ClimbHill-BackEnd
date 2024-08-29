@@ -59,10 +59,10 @@ public class SquadreController {
         squadreService.findByIdAndDelete(squadraId);
     }
 
-    @PostMapping("/{squadraId}/membri/{utenteId}")
+    @PostMapping("/{squadraId}/membri/{username}")
     @PreAuthorize("hasAuthority('CAPO_SQUADRA') or ('ADMIN')")
-    public Squadra addMembro(@PathVariable UUID squadraId, @PathVariable UUID utenteId) {
-        return squadreService.addMembro(squadraId, utenteId);
+    public Squadra addMembro(@PathVariable UUID squadraId, @PathVariable String username) {
+        return squadreService.addMembro(squadraId, username);
     }
 
     @DeleteMapping("/{squadraId}/membri/{utenteId}")

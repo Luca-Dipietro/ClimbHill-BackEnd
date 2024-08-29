@@ -70,10 +70,10 @@ public class SquadreService {
         this.squadreRepository.delete(found);
     }
 
-    public Squadra addMembro(UUID squadraId, UUID utenteId) {
+    public Squadra addMembro(UUID squadraId, String username) {
         Squadra squadra = squadreRepository.findById(squadraId).orElseThrow(() -> new NotFoundException(squadraId));
 
-        Utente utente = utentiService.findById(utenteId);
+        Utente utente = utentiService.findByUsername(username);
 
         if (squadra.getMembri().contains(utente)) {
             throw new BadRequestException("L'utente è già un membro della squadra!");
