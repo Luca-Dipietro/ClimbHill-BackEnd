@@ -6,9 +6,7 @@ import lucadipietro.ClimbHill_BackEnd.exceptions.BadRequestException;
 import lucadipietro.ClimbHill_BackEnd.payloads.SquadraDTO;
 import lucadipietro.ClimbHill_BackEnd.services.SquadreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -61,10 +59,10 @@ public class SquadreController {
         squadreService.findByIdAndDelete(squadraId);
     }
 
-    @PostMapping("/{squadraId}/membri/{utenteId}")
+    @PostMapping("/{squadraId}/membri/{username}")
     @PreAuthorize("hasAuthority('CAPO_SQUADRA') or ('ADMIN')")
-    public Squadra addMembro(@PathVariable UUID squadraId, @PathVariable UUID utenteId) {
-        return squadreService.addMembro(squadraId, utenteId);
+    public Squadra addMembro(@PathVariable UUID squadraId, @PathVariable String username) {
+        return squadreService.addMembro(squadraId, username);
     }
 
     @DeleteMapping("/{squadraId}/membri/{utenteId}")
@@ -74,19 +72,14 @@ public class SquadreController {
         squadreService.removeMembro(squadraId, utenteId);
     }
 
-    @PatchMapping("/{squadraId}/avatar")
+    @PatchMapping("/{utenteId}/avatar")
     @PreAuthorize("hasAuthority('CAPO_SQUADRA') or ('ADMIN')")
     public Squadra uploadAvatar(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
         return this.squadreService.uploadImage(utenteId, image);
     }
 
-    @GetMapping
-    public Page<Squadra> getAllSquadre(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
-        return this.squadreService.getSquadre(page, size, sortBy);
-    }
-
-    @GetMapping("/{utenteId}")
-    public List<Squadra> getSquadreByUtenteId(@PathVariable UUID utenteId) {
-        return this.squadreService.getSquadreByUtenteId(utenteId);
+    @GetMapping("/{squadraId}/membri")
+    public List<Utente> getMembri(@PathVariable UUID squadraId) {
+        return squadreService.getMembri(squadraId);
     }
 }
