@@ -69,16 +69,4 @@ public class StatisticheController {
     public Statistica findBySquadraId(@PathVariable UUID squadraId) {
         return statisticheService.findBySquadraId(squadraId);
     }
-
-    @PutMapping("/utente/{utenteId}/vittoria/{vittoria}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void aggiornaStatisticheUtente(@PathVariable UUID utenteId, @PathVariable boolean vittoria) {
-        statisticheService.aggiornaStatisticheUtente(utenteId, vittoria);
-    }
-
-    @PutMapping("/squadra/{squadraId}/vittoria/{vittoria}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void aggiornaStatisticheSquadra(@PathVariable UUID squadraId, @PathVariable boolean vittoria) {
-        statisticheService.aggiornaStatisticheSquadra(squadraId, vittoria);
-    }
 }
