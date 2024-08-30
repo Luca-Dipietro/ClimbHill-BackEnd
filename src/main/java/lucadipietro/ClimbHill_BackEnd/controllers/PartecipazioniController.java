@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/partecipazioni")
 public class PartecipazioniController {
@@ -32,5 +34,10 @@ public class PartecipazioniController {
                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                   @RequestParam(defaultValue = "id") String sortBy) {
         return partecipazioniService.getPartecipazioni(pageNumber, pageSize, sortBy);
+    }
+
+    @GetMapping("/torneo/{nomeTorneo}")
+    public List<Partecipazione> getPartecipazioniPerTorneo(@PathVariable String nomeTorneo) {
+        return partecipazioniService.findByTorneoNome(nomeTorneo);
     }
 }

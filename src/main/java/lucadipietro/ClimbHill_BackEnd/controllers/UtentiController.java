@@ -67,7 +67,7 @@ public class UtentiController {
     }
 
     @PatchMapping("/me/avatar")
-    public Utente uploadAvatar(@PathVariable UUID utenteId, @RequestParam("avatar") MultipartFile image) throws IOException {
-        return this.utentiService.uploadImage(utenteId, image);
+    public Utente uploadAvatar(@AuthenticationPrincipal Utente currentAuthenticatedUtente,@RequestParam("avatar") MultipartFile image) throws IOException {
+        return this.utentiService.uploadImage(currentAuthenticatedUtente.getId(), image);
     }
 }

@@ -1,6 +1,8 @@
 package lucadipietro.ClimbHill_BackEnd.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"membri","partecipazioni","partite","statistiche","risultati"})
+@JsonIgnoreProperties({"partecipazioni","partite","risultati","membri"})
 public class Squadra {
     @Id
     @GeneratedValue
@@ -22,7 +24,7 @@ public class Squadra {
     private String nome;
     private String avatar;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "squadra_utenti",
             joinColumns = @JoinColumn(name = "squadra_id"),
@@ -36,7 +38,7 @@ public class Squadra {
     @ManyToMany(mappedBy = "squadre")
     private List<Partita> partite;
 
-    @OneToMany(mappedBy = "squadra")
+    @OneToMany(mappedBy = "squadra",fetch = FetchType.EAGER)
     private List<Statistica> statistiche;
 
     @OneToMany(mappedBy = "squadra")

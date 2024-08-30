@@ -80,4 +80,9 @@ public class PartecipazioniService {
         Partecipazione found = this.findById(partecipazioneId);
         this.partecipazioniRepository.delete(found);
     }
+
+    public List<Partecipazione> findByTorneoNome(String nomeTorneo) {
+        Torneo torneo = torneiService.findByNome(nomeTorneo);
+        return partecipazioniRepository.findByTorneo(torneo);
+    }
 }
